@@ -1,4 +1,4 @@
-import sun from "../assets/images/icon-sun.svg";
+import { RiTodoLine } from "react-icons/ri";
 
 function Navbar() {
   return (
@@ -7,7 +7,7 @@ function Navbar() {
         <h1 className="text-white text-3xl tracking-widest">TODO</h1>
       </div>
       <div className="flex items-center justify-center mr-8 ">
-        <img src={sun} alt="sun" />
+        <RiTodoLine />
       </div>
     </nav>
   );

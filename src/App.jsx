@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { RiTodoLine } from "react-icons/ri";
 
 /* eslint-disable react/prop-types */
@@ -37,6 +38,8 @@ function Navbar() {
 }
 
 function Form() {
+  const [description, setDescription] = useState("");
+
   function handleSubmit(e) {
     e.preventDefault();
     console.log(e);
@@ -49,9 +52,11 @@ function Form() {
         onSubmit={handleSubmit}>
         <h3>Add a new todo... </h3>
         <input
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           type="text"
+          className="border-0 rounded p-1"
           placeholder="Go Shopping"
-          className="border-0 rounded p-1 "
         />
         <button className="bg-emerald-200 border-0 rounded p-1">ADD </button>
       </form>

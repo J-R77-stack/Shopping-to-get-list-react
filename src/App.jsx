@@ -22,6 +22,13 @@ export default function App() {
     );
   }
 
+  function handleClearList() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete all the items in the list?"
+    );
+    if (confirmed) setItems([]);
+  }
+
   return (
     <>
       <div className="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
@@ -32,6 +39,7 @@ export default function App() {
           items={items}
           onDeletingItems={HandleDeletingItem}
           onToggleItems={HandleToggleItem}
+          onClearList={handleClearList}
         />
 
         <Stats items={items} />
@@ -88,7 +96,7 @@ function Form({ onAddingItems }) {
   );
 }
 
-function List({ items, onDeletingItems, onToggleItems }) {
+function List({ items, onDeletingItems, onToggleItems, onClearList }) {
   const [sortBy, setSortBy] = useState("input");
 
   let sortedItems;
@@ -110,12 +118,19 @@ function List({ items, onDeletingItems, onToggleItems }) {
           />
         ))}
       </ul>
-      <div className="actions">
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+      <div className="flex items-center p-2 gap-4 cursor-pointer">
+        <select
+          className="border-0 rounded p-2"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}>
           <option value="input">Sort by input order</option>
           <option value="done">Sort by done status</option>
         </select>
-        {/* <button onClick={onClearList}>Clear list</button> */}
+        <button
+          className="bg-emerald-200 border-0 rounded p-1"
+          onClick={onClearList}>
+          Clear list
+        </button>
       </div>
     </div>
   );

@@ -14,13 +14,25 @@ export default function App() {
     setItems((items) => items.filter((item) => item.id !== id));
   }
 
+  function HandleToggleItem(id) {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, done: !item.done } : item
+      )
+    );
+  }
+
   return (
     <>
       <div className="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
       <div className="xl:w-3/5 m-auto h-screen grid grid-rows-[200px_auto_1fr_auto]">
         <Navbar />
         <Form onAddingItems={HandleAddingItems} />
-        <List items={items} onDeletingItems={HandleDeletingItem} />
+        <List
+          items={items}
+          onDeletingItems={HandleDeletingItem}
+          onToggleItems={HandleToggleItem}
+        />
 
         <Stats />
       </div>
@@ -76,21 +88,31 @@ function Form({ onAddingItems }) {
   );
 }
 
-function List({ items, onDeletingItems }) {
+function List({ items, onDeletingItems, onToggleItems }) {
   return (
     <div className="bg-neutral-500 p-[4rem] flex justify-between flex-col gap-4 items-center font-semibold">
       <ul className="list-none grid sm:grid-cols-3 gap-4">
         {items.map((item) => (
-          <Item item={item} key={item.id} onDeletingItems={onDeletingItems} />
+          <Item
+            item={item}
+            key={item.id}
+            onDeletingItems={onDeletingItems}
+            onToggleItems={onToggleItems}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item, onDeletingItems }) {
+function Item({ item, onDeletingItems, onToggleItems }) {
   return (
     <li className="rounded mb-2 bg-neutral-900 font-semibold capitalize text-white px-6 py-2 flex p-4 justify-between gap-4">
+      <input
+        type="checkbox"
+        value={item.done}
+        onChange={() => onToggleItems(item.id)}
+      />
       <span
         style={
           item.done

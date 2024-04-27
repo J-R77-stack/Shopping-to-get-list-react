@@ -3,20 +3,20 @@ import { RiTodoLine } from "react-icons/ri";
 
 /* eslint-disable react/prop-types */
 
-const practiceItems = [
-  { id: 1, description: "Go to the Gym ", done: false },
-  { id: 2, description: "Go to the Shops", done: false },
-  { id: 3, description: "Read", done: true },
-];
-
 export default function App() {
+  const [items, setItems] = useState([]);
+
+  function HandleAddingItems(item) {
+    setItems((items) => [...items, item]);
+  }
+
   return (
     <>
       <div className="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
       <div className="xl:w-3/5 m-auto h-screen grid grid-rows-[200px_auto_1fr_auto]">
         <Navbar />
-        <Form />
-        <List />
+        <Form onAddingItems={HandleAddingItems} />
+        <List items={items} />
 
         <Stats />
       </div>
@@ -37,12 +37,20 @@ function Navbar() {
   );
 }
 
-function Form() {
+function Form({ onAddingItems }) {
   const [description, setDescription] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
+
+    if (!description) return;
+
+    const newItem = { description, done: false, id: Date.now() };
+    console.log(newItem);
+
+    onAddingItems(newItem);
+
+    setDescription("");
   }
 
   return (
@@ -64,11 +72,11 @@ function Form() {
   );
 }
 
-function List() {
+function List({ items }) {
   return (
     <div className="bg-neutral-500 p-[4rem] flex justify-between flex-col gap-4 items-center font-semibold">
       <ul className="list-none grid sm:grid-cols-3 gap-4">
-        {practiceItems.map((item) => (
+        {items.map((item) => (
           <Item item={item} key={item.id} />
         ))}
       </ul>

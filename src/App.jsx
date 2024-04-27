@@ -89,10 +89,19 @@ function Form({ onAddingItems }) {
 }
 
 function List({ items, onDeletingItems, onToggleItems }) {
+  const [sortBy, setSortBy] = useState("input");
+
+  let sortedItems;
+
+  if (sortBy === "input") sortedItems = items;
+
+  if (sortBy === "done")
+    sortedItems = items.slice().sort((a, b) => Number(a.done) - Number(b.done));
+
   return (
     <div className="bg-neutral-500 p-[4rem] flex justify-between flex-col gap-4 items-center font-semibold">
       <ul className="list-none grid sm:grid-cols-3 gap-4">
-        {items.map((item) => (
+        {sortedItems.map((item) => (
           <Item
             item={item}
             key={item.id}
@@ -101,6 +110,13 @@ function List({ items, onDeletingItems, onToggleItems }) {
           />
         ))}
       </ul>
+      <div className="actions">
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="input">Sort by input order</option>
+          <option value="done">Sort by done status</option>
+        </select>
+        {/* <button onClick={onClearList}>Clear list</button> */}
+      </div>
     </div>
   );
 }

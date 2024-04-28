@@ -1,4 +1,5 @@
 import { RiTodoLine } from "react-icons/ri";
+
 function Navbar() {
   return (
     <nav className="bg-slate-500 flex items-center justify-between">
